@@ -1,6 +1,6 @@
 //: ![Swift](swift-logo.png)
 //: Swift v5.7 [official docs](https://docs.swift.org/swift-book/LanguageGuide/AccessControl.html)
-//: # Access Control
+//: # 27. Access Control
 //:
 //:
 //: Access control restricts access to parts of your code from code in other source files and modules. This feature enables you to hide the implementation details of your code, and to specify a preferred interface through which that code can be accessed and used.
