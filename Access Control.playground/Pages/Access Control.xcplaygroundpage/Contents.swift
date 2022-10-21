@@ -83,8 +83,8 @@ fileprivate func someFilePrivateFunction() {}
 private func somePrivateFunction() {}
 //: Unless otherwise specified, the default access level is internal, as described in Default Access Levels. This means that SomeInternalClass and someInternalConstant can be written without an explicit access-level modifier, and will still have an access level of internal:
 
-class SomeInternalClass {}              // implicitly internal
-let someInternalConstant = 0            // implicitly internal
+class SomeInternalClass2 {}              // implicitly internal
+let someInternalConstant2 = 0            // implicitly internal
 //: ## Custom Types
 //:
 //: If you want to specify an explicit access level for a custom type, do so at the point that you define the type. The new type can then be used wherever its access level permits. For example, if you define a file-private class, that class can only be used as the type of a property, or as a function parameter or return type, in the source file in which the file-private class is defined.
@@ -94,25 +94,25 @@ let someInternalConstant = 0            // implicitly internal
 //: IMPORTANT
 //:
 //: A public type defaults to having internal members, not public members. If you want a type member to be public, you must explicitly mark it as such. This requirement ensures that the public-facing API for a type is something you opt in to publishing, and avoids presenting the internal workings of a type as public API by mistake.
-public class SomePublicClass {                  // explicitly public class
+public class SomePublicClass2 {                  // explicitly public class
     public var somePublicProperty = 0            // explicitly public class member
     var someInternalProperty = 0                 // implicitly internal class member
     fileprivate func someFilePrivateMethod() {}  // explicitly file-private class member
     private func somePrivateMethod() {}          // explicitly private class member
 }
 
-class SomeInternalClass {                       // implicitly internal class
+class SomeInternalClass3 {                       // implicitly internal class
     var someInternalProperty = 0                 // implicitly internal class member
     fileprivate func someFilePrivateMethod() {}  // explicitly file-private class member
     private func somePrivateMethod() {}          // explicitly private class member
 }
 
-fileprivate class SomeFilePrivateClass {        // explicitly file-private class
+fileprivate class SomeFilePrivateClass2 {        // explicitly file-private class
     func someFilePrivateMethod() {}              // implicitly file-private class member
     private func somePrivateMethod() {}          // explicitly private class member
 }
 
-private class SomePrivateClass {                // explicitly private class
+private class SomePrivateClass2 {                // explicitly private class
     func somePrivateMethod() {}                  // implicitly private class member
 }
 //: ### Tuple Types
@@ -127,14 +127,16 @@ private class SomePrivateClass {                // explicitly private class
 //: The access level for a function type is calculated as the most restrictive access level of the function’s parameter types and return type. You must specify the access level explicitly as part of the function’s definition if the function’s calculated access level doesn’t match the contextual default.
 //:
 //: The example below defines a global function called someFunction(), without providing a specific access-level modifier for the function itself. You might expect this function to have the default access level of “internal”, but this isn’t the case. In fact, someFunction() won’t compile as written below:
-func someFunction() -> (SomeInternalClass, SomePrivateClass) {
-    // function implementation goes here
-}
+// ⛔️ Compilation error: uncomment to view
+//func someFunction() -> (SomeInternalClass, SomePrivateClass) {
+//    // function implementation goes here
+//}
 //: The function’s return type is a tuple type composed from two of the custom classes defined above in Custom Types. One of these classes is defined as internal, and the other is defined as private. Therefore, the overall access level of the compound tuple type is private (the minimum access level of the tuple’s constituent types).
 //:
 //: Because the function’s return type is private, you must mark the function’s overall access level with the private modifier for the function declaration to be valid:
 private func someFunction() -> (SomeInternalClass, SomePrivateClass) {
     // function implementation goes here
+    return (SomeInternalClass(), SomePrivateClass())
 }
 //: It’s not valid to mark the definition of someFunction() with the public or internal modifiers, or to use the default setting of internal, because public or internal users of the function might not have appropriate access to the private class used in the function’s return type.
 //:
@@ -172,11 +174,11 @@ internal class B: A {
     override internal func someMethod() {}
 }
 //: It’s even valid for a subclass member to call a superclass member that has lower access permissions than the subclass member, as long as the call to the superclass’s member takes place within an allowed access level context (that is, within the same source file as the superclass for a file-private member call, or within the same module as the superclass for an internal member call):
-public class A {
+public class A2 {
     fileprivate func someMethod() {}
 }
 
-internal class B: A {
+internal class B2: A2 {
     override internal func someMethod() {
         super.someMethod()
     }
@@ -221,7 +223,7 @@ print("The number of edits is \(stringToEdit.numberOfEdits)")
 //: Although you can query the current value of the numberOfEdits property from within another source file, you can’t modify the property from another source file. This restriction protects the implementation details of the TrackedString edit-tracking functionality, while still providing convenient access to an aspect of that functionality.
 //:
 //: Note that you can assign an explicit access level for both a getter and a setter if required. The example below shows a version of the TrackedString structure in which the structure is defined with an explicit access level of public. The structure’s members (including the numberOfEdits property) therefore have an internal access level by default. You can make the structure’s numberOfEdits property getter public, and its property setter private, by combining the public and private(set) access-level modifiers:
-public struct TrackedString {
+public struct TrackedString2 {
     public private(set) var numberOfEdits = 0
     public var value: String = "" {
         didSet {
