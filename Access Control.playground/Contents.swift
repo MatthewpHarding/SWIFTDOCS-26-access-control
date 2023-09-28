@@ -316,3 +316,4 @@ extension SomeStruct: SomeProtocol {
 //:
 //: * callout(Note):
 //:     → This rule also applies to type aliases for associated types used to satisfy protocol conformances.
+
