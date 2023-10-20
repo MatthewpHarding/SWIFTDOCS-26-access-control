@@ -33,13 +33,13 @@ A source file is a single Swift source code file within a module (in effect, a s
 
 Swift provides five different access levels for entities within your code. These access levels are relative to the source file in which an entity is defined, and also relative to the module that source file belongs to.
 
-Open access and public access enable entities to be used within any source file from their defining module, and also in a source file from another module that imports the defining module. You typically use open or public access when specifying the public interface to a framework. The difference between open and public access is described below.
+* *Open access* and *public access* enable entities to be used within any source file from their defining module, and also in a source file from another module that imports the defining module. You typically use open or public access when specifying the public interface to a framework. The difference between open and public access is described below.
 
-Internal access enables entities to be used within any source file from their defining module, but not in any source file outside of that module. You typically use internal access when defining an app’s or a framework’s internal structure.
+* *Internal access* enables entities to be used within any source file from their defining module, but not in any source file outside of that module. You typically use internal access when defining an app’s or a framework’s internal structure.
 
-File-private access restricts the use of an entity to its own defining source file. Use file-private access to hide the implementation details of a specific piece of functionality when those details are used within an entire file.
+* *File-private access* restricts the use of an entity to its own defining source file. Use file-private access to hide the implementation details of a specific piece of functionality when those details are used within an entire file.
 
-Private access restricts the use of an entity to the enclosing declaration, and to extensions of that declaration that are in the same file. Use private access to hide the implementation details of a specific piece of functionality when those details are used only within a single declaration.
+* *Private access* restricts the use of an entity to the enclosing declaration, and to extensions of that declaration that are in the same file. Use private access to hide the implementation details of a specific piece of functionality when those details are used only within a single declaration.
 
 Open access is the highest (least restrictive) access level and private access is the lowest (most restrictive) access level.
 
@@ -51,9 +51,9 @@ Access levels in Swift follow an overall guiding principle: No entity can be def
 
 For example:
 
-A public variable can’t be defined as having an internal, file-private, or private type, because the type might not be available everywhere that the public variable is used.
+* A public variable can’t be defined as having an internal, file-private, or private type, because the type might not be available everywhere that the public variable is used.
 
-A function can’t have a higher access level than its parameter types and return type, because the function could be used in situations where its constituent types are unavailable to the surrounding code.
+* A function can’t have a higher access level than its parameter types and return type, because the function could be used in situations where its constituent types are unavailable to the surrounding code.
 
 The specific implications of this guiding principle for different aspects of the language are covered in detail below.
 
@@ -82,11 +82,14 @@ When you write an app with a unit test target, the code in your app needs to be 
 Define the access level for an entity by placing one of the open, public, internal, fileprivate, or private modifiers at the beginning of the entity’s declaration.
 
 ```Swift
+open class SomeOpenClass {}
 public class SomePublicClass {}
 internal class SomeInternalClass {}
 fileprivate class SomeFilePrivateClass {}
 private class SomePrivateClass {}
 
+// ⛔️ Compilation error: uncomment to view
+//open var someOpenVariable = 0 // Only classes and overridable class members can be declared 'open'
 public var somePublicVariable = 0
 internal let someInternalConstant = 0
 fileprivate func someFilePrivateFunction() {}
@@ -104,9 +107,9 @@ If you want to specify an explicit access level for a custom type, do so at the 
 
 The access control level of a type also affects the default access level of that type’s members (its properties, methods, initializers, and subscripts). If you define a type’s access level as private or file private, the default access level of its members will also be private or file private. If you define a type’s access level as internal or public (or use the default access level of internal without specifying an access level explicitly), the default access level of the type’s members will be internal.
 
-IMPORTANT
-
-A public type defaults to having internal members, not public members. If you want a type member to be public, you must explicitly mark it as such. This requirement ensures that the public-facing API for a type is something you opt in to publishing, and avoids presenting the internal workings of a type as public API by mistake.
+>Important
+>
+>→ A public type defaults to having internal members, not public members. If you want a type member to be public, you must explicitly mark it as such. This requirement ensures that the public-facing API for a type is something you opt in to publishing, and avoids presenting the internal workings of a type as public API by mistake.
 
 ```Swift
 public class SomePublicClass2 {                  // explicitly public class
@@ -329,11 +332,11 @@ You can’t provide an explicit access-level modifier for an extension if you’
 
 Extensions that are in the same file as the class, structure, or enumeration that they extend behave as if the code in the extension had been written as part of the original type’s declaration. As a result, you can:
 
-Declare a private member in the original declaration, and access that member from extensions in the same file.
+* Declare a private member in the original declaration, and access that member from extensions in the same file.
 
-Declare a private member in one extension, and access that member from another extension in the same file.
+* Declare a private member in one extension, and access that member from another extension in the same file.
 
-Declare a private member in an extension, and access that member from the original declaration in the same file.
+* Declare a private member in an extension, and access that member from the original declaration in the same file.
 
 This behavior means you can use extensions in the same way to organize your code, whether or not your types have private entities. For example, given the following simple protocol:
 
